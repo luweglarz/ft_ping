@@ -4,6 +4,8 @@ NAME = ft_ping
 
 LIB = ft_ping.a
 
+LIBFT = libft/
+
 FLAGS = -Wall -Wextra -Werror
 
 SRCS =  $(wildcard src/*.c)
@@ -20,7 +22,8 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@ar rc $(LIB) $(OBJS)
 	@ranlib $(LIB)
-	$(CC) $(FLAGS) src/ft_ping.c $(LIB) -o $(NAME)
+	make -C $(LIBFT) all
+	$(CC) $(FLAGS) -I./include ./src/ft_ping.c $(LIB) $(LIBFT)libft.a -o $(NAME)
 
 docker:
 	@docker build -t image .
@@ -31,6 +34,7 @@ clean:
 	
 fclean:	clean
 	rm -rf $(NAME)
+	make -C $(LIBFT) fclean
 	-docker image rm image
 
 re: fclean all
