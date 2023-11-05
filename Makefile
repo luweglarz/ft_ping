@@ -22,10 +22,15 @@ $(NAME): $(OBJS)
 	@ranlib $(LIB)
 	$(CC) $(FLAGS) src/ft_ping.c $(LIB) -o $(NAME)
 
+docker:
+	@docker build -t image .
+	@docker run  --name container -it --rm -v $(PWD):/ft_ping image /bin/bash
+
 clean:
 	rm -rf $(OBJS) $(LIB)
-
+	
 fclean:	clean
 	rm -rf $(NAME)
+	-docker image rm image
 
 re: fclean all
