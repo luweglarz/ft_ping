@@ -14,8 +14,10 @@ OBJS = $(SRCS:.c=.o)
 
 PWD = $(shell pwd)
 
+INCLUDE = -I./include -I./libft
+
 .c.o:
-	$(CC) $(FLAGS) -I./include -c $< -o $@
+	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 all: $(NAME)
 
@@ -23,18 +25,18 @@ $(NAME): $(OBJS)
 	@ar rc $(LIB) $(OBJS)
 	@ranlib $(LIB)
 	make -C $(LIBFT) all
-	$(CC) $(FLAGS) -I./include ./src/ft_ping.c $(LIB) $(LIBFT)libft.a -o $(NAME)
+	$(CC) $(FLAGS) $(INCLUDE) ./src/ft_ping.c $(LIB) $(LIBFT)libft.a -o $(NAME)
 
 docker:
-	@docker build -t image .
-	@docker run  --name container -it --rm -v $(PWD):/ft_ping image /bin/bash
+	@docker build -t $(NAME) .
+	@docker run  --name container -it --rm -v $(PWD):/ft_ping $(NAME) /bin/bash
 
 clean:
-	rm -rf $(OBJS) $(LIB)
+	rm -f $(OBJS) $(LIB)
 	
 fclean:	clean
-	rm -rf $(NAME)
+	rm -f $(NAME)
 	make -C $(LIBFT) fclean
-	-docker image rm image
+	-docker image rm $(NAME)
 
 re: fclean all

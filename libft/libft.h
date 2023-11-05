@@ -8,6 +8,7 @@
 # include "checkers/checkers.h"
 # include "converters/converters.h"
 # include "io/io.h"
+# include "lists/lists.h"
 # include "memory/memory.h"
 # include "strings/strings.h"
 
