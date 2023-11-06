@@ -12,6 +12,6 @@ typedef enum    s_options{
 
 e_options options;
 
-int     get_opts(int ac, char **av);
+int     parse_args(int ac, char **av);
 
 #endif
